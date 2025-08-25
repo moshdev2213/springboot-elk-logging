@@ -16,12 +16,7 @@ services:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - elk-network-prod
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin-prod
@@ -37,7 +32,6 @@ services:
       - pgadmin_data_prod:/var/lib/pgadmin
     networks:
       - elk-network-prod
-    restart: unless-stopped
 
   # Kafka
   zookeeper:
@@ -48,7 +42,6 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - elk-network-prod
-    restart: unless-stopped
 
   kafka:
     image: confluentinc/cp-kafka:7.4.0
@@ -66,7 +59,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
       - elk-network-prod
-    restart: unless-stopped
 
   # Elasticsearch
   elasticsearch:
@@ -82,13 +74,6 @@ services:
       - elasticsearch_data_prod:/usr/share/elasticsearch/data
     networks:
       - elk-network-prod
-    restart: unless-stopped
-    healthcheck:
-      test:
-        ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   # Logstash
   logstash:
@@ -104,7 +89,6 @@ services:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
     networks:
       - elk-network-prod
-    restart: unless-stopped
 
   # Kibana
   kibana:
@@ -118,7 +102,6 @@ services:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
       - elk-network-prod
-    restart: unless-stopped
 
   # Filebeat
   filebeat:
@@ -133,7 +116,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - elk-network-prod
-    restart: unless-stopped
 
 volumes:
   postgres_data_prod:
