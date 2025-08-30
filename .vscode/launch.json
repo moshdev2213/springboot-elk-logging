@@ -1,0 +1,70 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // inventory based confs
+        {
+            "type": "java",
+            "name": "Inventory - Dev",
+            "request": "launch",
+            "mainClass": "com.learn.inventory.InventoryApplication",
+            "projectName": "inventory",
+            "vmArgs": "-Dspring.profiles.active=dev"
+        },
+        {
+            "type": "java",
+            "name": "Inventory - Staging",
+            "request": "launch",
+            "mainClass": "com.learn.inventory.InventoryApplication",
+            "projectName": "inventory",
+            "vmArgs": "-Dspring.profiles.active=staging"
+        },
+        {
+            "type": "java",
+            "name": "Inventory - Prod",
+            "request": "launch",
+            "mainClass": "com.learn.inventory.InventoryApplication",
+            "projectName": "inventory",
+            "vmArgs": "-Dspring.profiles.active=prod"
+        },
+        {
+            "type": "java",
+            "name": "Inventory - Default",
+            "request": "launch",
+            "mainClass": "com.learn.inventory.InventoryApplication",
+            "projectName": "inventory"
+        },
+
+        // order based confs
+        {
+            "type": "java",
+            "name": "Order - Dev",
+            "request": "launch",
+            "mainClass": "com.learn.order.InventoryApplication",
+            "projectName": "order",
+            "vmArgs": "-Dspring.profiles.active=dev"
+        },
+        {
+            "type": "java",
+            "name": "Order - Staging",
+            "request": "launch",
+            "mainClass": "com.learn.order.InventoryApplication",
+            "projectName": "order",
+            "vmArgs": "-Dspring.profiles.active=staging"
+        },
+        {
+            "type": "java",
+            "name": "Order - Prod",
+            "request": "launch",
+            "mainClass": "com.learn.order.InventoryApplication",
+            "projectName": "order",
+            "vmArgs": "-Dspring.profiles.active=prod"
+        },
+        {
+            "type": "java",
+            "name": "Order - Default",
+            "request": "launch",
+            "mainClass": "com.learn.order.InventoryApplication",
+            "projectName": "order"
+        }
+    ]
+}
