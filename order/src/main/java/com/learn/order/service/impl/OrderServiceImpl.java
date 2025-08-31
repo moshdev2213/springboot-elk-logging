@@ -1,9 +1,9 @@
 package com.learn.order.service.impl;
 
+import com.learn.common.dto.OrderCreatedEvent;
 import com.learn.order.dto.CreateOrderRequest;
 import com.learn.order.entity.Order;
 import com.learn.order.entity.OrderItem;
-import com.learn.order.event.OrderCreatedEvent;
 import com.learn.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

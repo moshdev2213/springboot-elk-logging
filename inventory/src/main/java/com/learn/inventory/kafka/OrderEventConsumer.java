@@ -3,9 +3,7 @@ package com.learn.inventory.kafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.learn.inventory.event.OrderCreatedEvent;
+import com.learn.common.dto.OrderCreatedEvent;
 import com.learn.inventory.service.ProductService;
 
 import lombok.AllArgsConstructor;
@@ -16,17 +14,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderEventConsumer {
     private final ProductService productService;
-    private final ObjectMapper objectMapper;
+    // private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "${kafka.topic.order-created}", groupId = "${kafka.group-id.inventory}")
-    public void consumeOrderCreatedEvent(String message) {
+    public void consumeOrderCreatedEvent(OrderCreatedEvent orderCreatedEvent) {
         try {
-            log.info("Received order created event: {}", message);
-            OrderCreatedEvent event = objectMapper.readValue(message, OrderCreatedEvent.class);
+            log.info("Received order created event: {}", orderCreatedEvent);
+            // OrderCreatedEvent event = objectMapper.readValue(message, OrderCreatedEvent.class);
             log.info("Parsed order created event for order: {}, customer: {}",
-                    event.getOrderId(), event.getCustomerName());
+                    orderCreatedEvent.getOrderId(), orderCreatedEvent.getCustomerName());
             // Process each order item and update stock
-            for (OrderCreatedEvent.OrderItemEvent itemEvent : event.getOrderItems()) {
+            for (OrderCreatedEvent.OrderItemEvent itemEvent : orderCreatedEvent.getOrderItems()) {
                 try {
                     log.info("Processing order item: productId={}, quantity={}",
                             itemEvent.getProductId(), itemEvent.getQuantity());
@@ -37,15 +35,13 @@ public class OrderEventConsumer {
 
                 } catch (Exception e) {
                     log.error("Failed to update stock for product: {}, order: {}",
-                            itemEvent.getProductId(), event.getOrderId(), e);
+                            itemEvent.getProductId(), orderCreatedEvent.getOrderId(), e);
                     // In production, you might want to implement dead letter queue or retry
                     // mechanism
                 }
             }
-        } catch (JsonProcessingException e) {
-            log.error("Failed to parse order created event: {}", message, e);
         } catch (Exception e) {
-            log.error("Unexpected error processing order created event: {}", message, e);
+            log.error("Unexpected error processing order created event: {}", orderCreatedEvent, e);
         }
     }
 }
