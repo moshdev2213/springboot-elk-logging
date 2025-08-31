@@ -17,6 +17,7 @@ services:
     networks:
       - elk-network-dev
 
+  # PG Admin for database management
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin-dev
@@ -25,7 +26,7 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@dev.local
+      PGADMIN_DEFAULT_EMAIL: admin@dev.com
       PGADMIN_DEFAULT_PASSWORD: admin123
       PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
@@ -38,7 +39,7 @@ services:
     image: bitnami/kafka:3.5
     container_name: kafka
     ports:
-      - "9195:9092"
+      - "9192:9092"
     volumes:
       - kafka_data_dev:/bitnami/kafka
     environment:
