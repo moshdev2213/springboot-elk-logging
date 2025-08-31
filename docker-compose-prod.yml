@@ -37,7 +37,7 @@ services:
   # kafka based services(Zookeeper-free)
   kafka:
     image: bitnami/kafka:3.5
-    container_name: kafka
+    container_name: kafka-prod
     ports:
       - "9194:9092"
     volumes:
