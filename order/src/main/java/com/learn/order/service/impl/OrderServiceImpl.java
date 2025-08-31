@@ -1,4 +1,4 @@
-package com.learn.order.service;
+package com.learn.order.service.impl;
 
 import com.learn.order.dto.CreateOrderRequest;
 import com.learn.order.entity.Order;
@@ -7,8 +7,9 @@ import com.learn.order.event.OrderCreatedEvent;
 import com.learn.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.java.com.learn.order.service.OrderService;
+import com.learn.order.service.OrderService;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -158,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
 
             event.setOrderItems(itemEvents);
 
-            kafkaTemplate.send(ORDER_CREATED_TOPIC, event);
+            kafkaTemplate.send(orderCreatedTopic, event);
             log.info("Order created event published to Kafka for order: {}", order.getId());
 
         } catch (Exception e) {
