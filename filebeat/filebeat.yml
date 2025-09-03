@@ -23,11 +23,12 @@ filebeat.inputs:
     # Dynamically extract service name and environment from filename
     processors:
       - dissect:
-          tokenizer: "/logs/%{service}-service-%{environment}.log"
+          tokenizer: "/logs/%{service.name}.log"
           field: "log.file.path"
           target_prefix: ""
       - add_fields:
           fields:
+            environment: "local"
             log_level: "detailed"
 
   # Docker container logs
