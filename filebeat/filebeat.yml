@@ -4,32 +4,68 @@ filebeat.inputs:
     paths:
       - /logs/*.log               # watch all logs
     fields_under_root: true
-
+    
     multiline:
       pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}"
       negate: true
       match: after
-
+    
     include_lines: ["DEBUG", "INFO", "WARN", "ERROR", "TRACE"]
-
-    # Filter for default & dev service logs only
+    
+    # Include all service logs from all environments
     include_files:
-      - ".*-service.log"           # default service logs
-    exclude_files:
+      - ".*-service.log"           # default/local service logs
       - ".*-service-dev.log"       # dev environment logs
-      - ".*-service-stage.log"     # skip stage logs
-      - ".*-service-prod.log"      # skip prod logs
-
+      - ".*-service-stage.log"     # stage environment logs
+      - ".*-service-prod.log"      # prod environment logs
+    
     # Dynamically extract service name and environment from filename
+
     processors:
+      # Match logs with environment suffix
       - dissect:
-          tokenizer: "/logs/%{service.name}.log"
+          tokenizer: "/logs/%{temp_service}-service-%{environment}.log"
           field: "log.file.path"
           target_prefix: ""
+          ignore_failure: true
+
+      # Match logs without environment suffix (default/local)
+      - dissect:
+          when:
+            not:
+              has_fields: ['environment']
+          tokenizer: "/logs/%{temp_service}-service.log"
+          field: "log.file.path"
+          target_prefix: ""
+          ignore_failure: true
+
+      - script:
+          lang: javascript
+          id: process_service_info
+          source: >
+            function process(event) {
+              var tempService = event.Get("temp_service");
+              var environment = event.Get("environment");
+              
+              if (tempService) {
+                var serviceName = tempService + "-service";
+                event.Put("service.name", serviceName);
+                
+                if (!environment) {
+                  event.Put("environment", "local");
+                }
+
+                event.Delete("temp_service");
+              }
+              
+              return event;
+            }
+
+
       - add_fields:
           fields:
-            environment: "local"
             log_level: "detailed"
+            collected_by: "filebeat"
 
 output.logstash:
   hosts: ["logstash:5044"]
