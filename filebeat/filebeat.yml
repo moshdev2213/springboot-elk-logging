@@ -43,13 +43,6 @@ filebeat.inputs:
   #         fields:
   #           log_level: "detailed"
 
-# 🔽 Instead of Logstash, output to a file
-# output.file:
-#   path: "/tmp/filebeat-logs" # folder where logs will be written
-#   filename: "filebeat-logs" # base name of the log file
-#   rotate_every_kb: "10000" # rotate file every 10MB
-#   number_of_files: "5" # keep last 5 rotated files
-
 output.logstash:
   hosts: ["logstash:5044"]
 
