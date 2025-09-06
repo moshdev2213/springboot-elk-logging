@@ -313,30 +313,14 @@ elk_springboot/
 │   │   └── application-prod.properties   # Production config
 │   └── pom.xml
 ├── docker-compose.yml             # Default infrastructure
-├── docker-compose-dev.yml         # Development infrastructure
-├── docker-compose-staging.yml     # Staging infrastructure
-├── docker-compose-prod.yml        # Production infrastructure
 ├── init-db.sql                   # Database initialization
 ├── logstash/                     # Logstash configuration
 │   ├── pipeline/
 │   │   ├── logstash.conf         # Default pipeline
-│   │   ├── logstash-dev.conf     # Development pipeline
-│   │   ├── logstash-staging.conf # Staging pipeline
-│   │   └── logstash-prod.conf    # Production pipeline
 │   └── config/
 ├── filebeat/                     # Filebeat configuration
 │   ├── filebeat.yml              # Default config
-│   ├── filebeat-dev.yml          # Development config
-│   ├── filebeat-staging.yml      # Staging config
-│   └── filebeat-prod.yml         # Production config
 ├── logs/                         # Application logs
-├── start-dev.sh                  # Development startup script
-├── start-staging.sh              # Staging startup script
-├── start-prod.sh                 # Production startup script
-├── test-api.sh                   # API testing script
-├── ENVIRONMENT_LOGGING.md        # Environment logging documentation
-├── ENVIRONMENT_CONFIGURATION_SUMMARY.md # Environment configuration reference
-├── PGADMIN_SETUP.md              # PG Admin setup and usage guide
 └── README.md                     # This file
 ```
 
