@@ -98,7 +98,7 @@ cd ../inventory && mvn clean package -DskipTests && java "-Dspring.profiles.acti
 cd order && mvn clean package -DskipTests && java "-Dspring.profiles.active=prod" -jar "target\order-0.0.1-SNAPSHOT.jar"
 cd ../inventory && mvn clean package -DskipTests && java "-Dspring.profiles.active=prod" -jar "target\inventory-0.0.1-SNAPSHOT.jar"
 ```
-
+<!-- 
 ### 3. Access Services
 
 #### Default Environment
@@ -123,7 +123,7 @@ cd ../inventory && mvn clean package -DskipTests && java "-Dspring.profiles.acti
 
 - **Order Service**: http://localhost:8080
 - **Inventory Service**: http://localhost:8081
-- **PG Admin**: http://localhost:5052 (admin@prod.local / admin123)
+- **PG Admin**: http://localhost:5052 (admin@prod.local / admin123) -->
 
 ## API Endpoints
 
